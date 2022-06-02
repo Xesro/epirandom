@@ -9,7 +9,6 @@ modules:
 
 modules_install:
 	$(MAKE) -C $(KERNELDIR) M=$(PWD) $@
-	depmod -A
 
 clean:
 	$(RM) *.o *~ core .depend .*.cmd *.ko *.mod.c *.tmp_versions *.mod *.order *.symvers
