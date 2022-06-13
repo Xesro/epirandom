@@ -164,7 +164,7 @@ return bytes_read;
     int count = 0;
 
     while(count < bufferSize) {
-        writeBuffer[count] = 48 + (writeBuffer[count] % 10);
+        writeBuffer[count] = 50;
         count++;
     }
 

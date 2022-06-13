@@ -5,7 +5,7 @@ KERNELDIR ?= /lib/modules/$(shell uname -r)/build
 PWD := $(shell pwd)
 
 modules:
-	$(MAKE) V=1 -C $(KERNELDIR) M=$(PWD) $@
+	$(MAKE) -C $(KERNELDIR) M=$(PWD) $@
 
 modules_install:
 	$(MAKE) -C $(KERNELDIR) M=$(PWD) $@
