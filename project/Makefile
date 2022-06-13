@@ -1,5 +1,5 @@
 ifeq ($(KERNELRELEASE),)
-ccflags-y += -std=c99
+ccflags-y += "-std=c99"
 
 KERNELDIR ?= /lib/modules/$(shell uname -r)/build
 
