@@ -160,7 +160,7 @@ return bytes_read;
 //    if( copy_to_user(buffer, g_s_Hello_World_string + *offset, length) != 0 )
 ////        return -EFAULT;
     int bufferSize = 100;
-    char writeBuffer[bufferSize];
+    unsigned writeBuffer[bufferSize];
     int count = 0;
 
     get_random_bytes(writeBuffer, bufferSize);
