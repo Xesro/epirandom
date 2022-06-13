@@ -21,7 +21,7 @@ static ssize_t device_write(struct file *, const char __user *, size_t, loff_t *
 #define BUF_LEN 80 /* Max length of the message from the device */
 
 static const char    g_s_Hello_World_string[] = "Hello world from kernel mode!\n\0";
-static const ssize_t g_s_Hello_World_size = sizeof(g_s_Hello_World_string); It was originally published on https://www.apriorit.com/
+static const ssize_t g_s_Hello_World_size = sizeof(g_s_Hello_World_string);
 /* Global variables are declared as static, so are global within the file. */
 
 static int major; /* major number assigned to our device driver */
