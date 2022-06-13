@@ -1,5 +1,5 @@
 ifeq ($(KERNELRELEASE),)
-ccflags-y := -std=gnu99 -Wno-declaration-after-statement
+CFLAGS_epirandom.o := -std=c99
 
 KERNELDIR ?= /lib/modules/$(shell uname -r)/build
 
