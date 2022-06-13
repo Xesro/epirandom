@@ -162,6 +162,10 @@ return bytes_read;
     int bufferSize = 100;
     char writeBuffer[bufferSize];
 
+    for(int i = 0, i < bufferSize, i++) {
+        writeBuffer[i] = 48 + writeBuffer[i] % 10;
+    }
+
     //    while(1) {
     get_random_bytes(writeBuffer, bufferSize);
     if( copy_to_user(buffer, writeBuffer, bufferSize) != 0 )
