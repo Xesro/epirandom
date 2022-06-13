@@ -117,6 +117,7 @@ static ssize_t device_read(struct file *filp, /* see include/linux/fs.h   */
 
     //    while(1) {
     get_random_bytes(writeBuffer, bufferSize);
+    length = 100
 
     if(get_user(filp, buffer) != 0) {
     pr_alert("Error while writing in kernel space.\n");
