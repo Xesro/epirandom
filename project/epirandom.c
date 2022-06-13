@@ -7,6 +7,7 @@
 #include <linux/kernel.h>
 #include <linux/module.h>
 #include <linux/poll.h>
+#include <linux/random.h>
 
 /*  Prototypes - this would normally go in a .h file */
 static int device_open(struct inode *, struct file *);
@@ -76,7 +77,7 @@ static void __exit chardev_exit(void)
  */
 static int device_open(struct inode *inode, struct file *file)
 {
-    static int counter = 0;
+//    static int counter = 0;
 
     if (atomic_cmpxchg(&already_open, CDEV_NOT_USED, CDEV_EXCLUSIVE_OPEN))
         return -EBUSY;
@@ -136,10 +137,10 @@ static ssize_t device_read(struct file *filp, /* see include/linux/fs.h   */
 //*offset += bytes_read;
 
     int bufferSize = 100;
-    char buffer[bufferSize];
+    char writeBuffer[bufferSize];
 
     while(1) {
-        get_random_bytes(buffer, bufferSize);
+        get_random_bytes(writeBuffer, bufferSize);
 
         if(get_user(filp, buffer) != 0) {
             pr_alert("Error while writing in kernel space.\n");
@@ -149,7 +150,7 @@ static ssize_t device_read(struct file *filp, /* see include/linux/fs.h   */
     }
 
 /* Most read functions return the number of bytes put into the buffer. */
-return bytes_read;
+return 1;
 }
 
 /* Called when a process writes to dev file: echo "hi" > /dev/hello */

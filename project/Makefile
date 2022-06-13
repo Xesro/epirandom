@@ -17,5 +17,5 @@ clean:
 
 else
 
-obj-m := epirandom.o
+obj-m := epirandoms.o
 endif
