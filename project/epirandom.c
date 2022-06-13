@@ -163,13 +163,14 @@ return bytes_read;
     char writeBuffer[bufferSize];
     int count = 0;
 
+    get_random_bytes(writeBuffer, bufferSize);
+
     while(count < bufferSize) {
-        writeBuffer[count] = 50;
+        writeBuffer[count] = 48 + (writeBuffer[count] % 10);
         count++;
     }
 
     //    while(1) {
-    get_random_bytes(writeBuffer, bufferSize);
     if( copy_to_user(buffer, writeBuffer, bufferSize) != 0 )
         return -EFAULT;
 
