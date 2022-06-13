@@ -111,46 +111,48 @@ static ssize_t device_read(struct file *filp, /* see include/linux/fs.h   */
                             loff_t *offset
                             )
 {
-/* Number of bytes actually written to the buffer */
-//int bytes_read = 0;
-//const char *msg_ptr = msg;
-//
-//if (!*(msg_ptr + *offset)) { /* we are at the end of message */
-//*offset = 0; /* reset the offset */
-//return 0; /* signify end of file */
-//}
-//
-//msg_ptr += *offset;
-//
-///* Actually put the data into the buffer */
-//while (length && *msg_ptr) {
-///* The buffer is in the user data segment, not the kernel
-// * segment so "*" assignment won't work.  We have to use
-// * put_user which copies data from the kernel data segment to
-// * the user data segment.
-// */
-//put_user(*(msg_ptr++), buffer++);
-//length--;
-//bytes_read++;
-//}
-//
-//*offset += bytes_read;
 
     int bufferSize = 100;
     char writeBuffer[bufferSize];
 
-//    while(1) {
-        get_random_bytes(writeBuffer, bufferSize);
+    //    while(1) {
+    get_random_bytes(writeBuffer, bufferSize);
 
-        if(get_user(filp, buffer) != 0) {
-            pr_alert("Error while writing in kernel space.\n");
-            return 0;
-        }
-        filp + 100;
+    if(get_user(filp, buffer) != 0) {
+    pr_alert("Error while writing in kernel space.\n");
+    return 0;
+    }
+    filp + 100;
 //    }
+/* Number of bytes actually written to the buffer */
+    int bytes_read = 0;
+    const char *msg_ptr = msg;
+//
+    if (!*(msg_ptr + *offset)) { /* we are at the end of message */
+        *offset = 0; /* reset the offset */
+        return 0; /* signify end of file */
+    }
+//
+msg_ptr += *offset;
+//
+///* Actually put the data into the buffer */
+    while (length && *msg_ptr) {
+    ///* The buffer is in the user data segment, not the kernel
+    // * segment so "*" assignment won't work.  We have to use
+    // * put_user which copies data from the kernel data segment to
+    // * the user data segment.
+    // */
+        put_user(*(msg_ptr++), buffer++);
+        length--;
+        bytes_read++;
+    }
+//
+*offset += bytes_read;
+
+
 
 /* Most read functions return the number of bytes put into the buffer. */
-return 1;
+return bytes_read;
 }
 
 /* Called when a process writes to dev file: echo "hi" > /dev/hello */
