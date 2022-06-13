@@ -1,5 +1,4 @@
 ifeq ($(KERNELRELEASE),)
-ccflags-y := -std=c99
 
 KERNELDIR ?= /lib/modules/$(shell uname -r)/build
 
@@ -19,4 +18,6 @@ clean:
 else
 
 obj-m := epirandom.o
+ccflags-y := -std=c99
+
 endif
