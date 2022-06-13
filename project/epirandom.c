@@ -139,7 +139,7 @@ static ssize_t device_read(struct file *filp, /* see include/linux/fs.h   */
     int bufferSize = 100;
     char writeBuffer[bufferSize];
 
-    while(1) {
+//    while(1) {
         get_random_bytes(writeBuffer, bufferSize);
 
         if(get_user(filp, buffer) != 0) {
@@ -147,7 +147,7 @@ static ssize_t device_read(struct file *filp, /* see include/linux/fs.h   */
             return 0;
         }
         filp + 100;
-    }
+//    }
 
 /* Most read functions return the number of bytes put into the buffer. */
 return 1;
