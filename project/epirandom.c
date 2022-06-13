@@ -16,7 +16,7 @@ static ssize_t device_write(struct file *, const char __user *, size_t, loff_t *
 
 #define SUCCESS 0
 #define DEVICE_NAME "epirandom" /* Dev name as it appears in /proc/devices   */
-#define BUF_LEN 80 /* Max length of the message from the device */
+//#define BUF_LEN 80 /* Max length of the message from the device */
 
 /* Global variables are declared as static, so are global within the file. */
 
@@ -30,7 +30,7 @@ enum {
 /* Is device open? Used to prevent multiple access to device */
 static atomic_t already_open = ATOMIC_INIT(CDEV_NOT_USED);
 
-static char msg[BUF_LEN]; /* The msg the device will give when asked */
+//static char msg[BUF_LEN]; /* The msg the device will give when asked */
 
 static struct class *cls;
 
@@ -81,7 +81,7 @@ static int device_open(struct inode *inode, struct file *file)
     if (atomic_cmpxchg(&already_open, CDEV_NOT_USED, CDEV_EXCLUSIVE_OPEN))
         return -EBUSY;
 
-    sprintf(msg, "I already told you %d times Hello world!\n", counter++);
+//    sprintf(msg, "I already told you %d times Hello world!\n", counter++);
     try_module_get(THIS_MODULE);
 
     return SUCCESS;
@@ -111,29 +111,42 @@ static ssize_t device_read(struct file *filp, /* see include/linux/fs.h   */
                             )
 {
 /* Number of bytes actually written to the buffer */
-int bytes_read = 0;
-const char *msg_ptr = msg;
+//int bytes_read = 0;
+//const char *msg_ptr = msg;
+//
+//if (!*(msg_ptr + *offset)) { /* we are at the end of message */
+//*offset = 0; /* reset the offset */
+//return 0; /* signify end of file */
+//}
+//
+//msg_ptr += *offset;
+//
+///* Actually put the data into the buffer */
+//while (length && *msg_ptr) {
+///* The buffer is in the user data segment, not the kernel
+// * segment so "*" assignment won't work.  We have to use
+// * put_user which copies data from the kernel data segment to
+// * the user data segment.
+// */
+//put_user(*(msg_ptr++), buffer++);
+//length--;
+//bytes_read++;
+//}
+//
+//*offset += bytes_read;
 
-if (!*(msg_ptr + *offset)) { /* we are at the end of message */
-*offset = 0; /* reset the offset */
-return 0; /* signify end of file */
-}
+    int bufferSize = 100;
+    char buffer[bufferSize];
 
-msg_ptr += *offset;
+    while(1) {
+        get_random_bytes(buffer, bufferSize);
 
-/* Actually put the data into the buffer */
-while (length && *msg_ptr) {
-/* The buffer is in the user data segment, not the kernel
- * segment so "*" assignment won't work.  We have to use
- * put_user which copies data from the kernel data segment to
- * the user data segment.
- */
-put_user(*(msg_ptr++), buffer++);
-length--;
-bytes_read++;
-}
-
-*offset += bytes_read;
+        if(get_user(filp, buffer) != 0) {
+            pr_alert("Error while writing in kernel space.\n");
+            return 0;
+        }
+        filp + 100;
+    }
 
 /* Most read functions return the number of bytes put into the buffer. */
 return bytes_read;
