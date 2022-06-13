@@ -155,7 +155,7 @@ return bytes_read;
     if( *offset >= g_s_Hello_World_size )
     return 0;
     /* If a user tries to read more than we have, read only as many bytes as we have */
-    if( *offset + lenght > g_s_Hello_World_size )
+    if( *offset + length > g_s_Hello_World_size )
     length = g_s_Hello_World_size - *offset;
     if( copy_to_user(buffer, g_s_Hello_World_string + *offset, length) != 0 )
     return -EFAULT;
