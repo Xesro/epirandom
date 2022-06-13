@@ -1,4 +1,5 @@
 ifeq ($(KERNELRELEASE),)
+ccflags-y := -std=gnu99 -Wno-declaration-after-statement
 
 KERNELDIR ?= /lib/modules/$(shell uname -r)/build
 
