@@ -17,7 +17,7 @@ static ssize_t device_write(struct file *, const char __user *, size_t, loff_t *
 
 #define SUCCESS 0
 #define DEVICE_NAME "epirandom" /* Dev name as it appears in /proc/devices   */
-//#define BUF_LEN 80 /* Max length of the message from the device */
+#define BUF_LEN 80 /* Max length of the message from the device */
 
 /* Global variables are declared as static, so are global within the file. */
 
@@ -31,7 +31,7 @@ enum {
 /* Is device open? Used to prevent multiple access to device */
 static atomic_t already_open = ATOMIC_INIT(CDEV_NOT_USED);
 
-//static char msg[BUF_LEN]; /* The msg the device will give when asked */
+static char msg[BUF_LEN]; /* The msg the device will give when asked */
 
 static struct class *cls;
 
