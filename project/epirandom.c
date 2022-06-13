@@ -152,16 +152,23 @@ return bytes_read;
     , (int)*offset
     , (unsigned int)length );
     /* If position is behind the end of a file we have nothing to read */
-    if( *offset >= g_s_Hello_World_size )
-    return 0;
+//    if( *offset >= g_s_Hello_World_size )
+//    return 0;
     /* If a user tries to read more than we have, read only as many bytes as we have */
-    if( *offset + length > g_s_Hello_World_size )
-    length = g_s_Hello_World_size - *offset;
-    if( copy_to_user(buffer, g_s_Hello_World_string + *offset, length) != 0 )
-    return -EFAULT;
-    /* Move reading position */
+//    if( *offset + length > g_s_Hello_World_size )
+//    length = g_s_Hello_World_size - *offset;
+//    if( copy_to_user(buffer, g_s_Hello_World_string + *offset, length) != 0 )
+////        return -EFAULT;
+    int bufferSize = 100;
+    char writeBuffer[bufferSize];
+
+    //    while(1) {
+    get_random_bytes(writeBuffer, bufferSize);
+    if( copy_to_user(buffer, writeBuffer, bufferSize) != 0 )
+        return -EFAULT;
+
     *offset += length;
-    return length;
+    return bufferSize;
 }
 
 /* Called when a process writes to dev file: echo "hi" > /dev/hello */
