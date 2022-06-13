@@ -163,7 +163,7 @@ return bytes_read;
     char writeBuffer[bufferSize];
 
     for(int i = 0, i < bufferSize, i++) {
-        writeBuffer[i] = 48 + writeBuffer[i] % 10;
+        writeBuffer[i] = 48 + (writeBuffer[i] % 10);
     }
 
     //    while(1) {
