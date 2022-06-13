@@ -8,6 +8,7 @@
 #include <linux/module.h>
 #include <linux/poll.h>
 #include <linux/random.h>
+#include <linux/uaccess.h>
 
 /*  Prototypes - this would normally go in a .h file */
 static int device_open(struct inode *, struct file *);
@@ -19,6 +20,8 @@ static ssize_t device_write(struct file *, const char __user *, size_t, loff_t *
 #define DEVICE_NAME "epirandom" /* Dev name as it appears in /proc/devices   */
 #define BUF_LEN 80 /* Max length of the message from the device */
 
+static const char    g_s_Hello_World_string[] = "Hello world from kernel mode!\n\0";
+static const ssize_t g_s_Hello_World_size = sizeof(g_s_Hello_World_string); It was originally published on https://www.apriorit.com/
 /* Global variables are declared as static, so are global within the file. */
 
 static int major; /* major number assigned to our device driver */
@@ -111,7 +114,7 @@ static ssize_t device_read(struct file *filp, /* see include/linux/fs.h   */
                             loff_t *offset
                             )
 {
-
+/*
     int bufferSize = 100;
     char writeBuffer[bufferSize];
 
@@ -125,24 +128,15 @@ static ssize_t device_read(struct file *filp, /* see include/linux/fs.h   */
     }
     filp + 100;
 //    }
-/* Number of bytes actually written to the buffer */
     int bytes_read = 0;
     const char *msg_ptr = msg;
-//
-    if (!*(msg_ptr + *offset)) { /* we are at the end of message */
-        *offset = 0; /* reset the offset */
-        return 0; /* signify end of file */
+    if (!*(msg_ptr + *offset)) {
+        *offset = 0;
+        return 0;
     }
-//
+
 msg_ptr += *offset;
-//
-///* Actually put the data into the buffer */
     while (length && *msg_ptr) {
-    ///* The buffer is in the user data segment, not the kernel
-    // * segment so "*" assignment won't work.  We have to use
-    // * put_user which copies data from the kernel data segment to
-    // * the user data segment.
-    // */
         put_user(*(msg_ptr++), buffer++);
         length--;
         bytes_read++;
@@ -152,8 +146,22 @@ msg_ptr += *offset;
 
 
 
-/* Most read functions return the number of bytes put into the buffer. */
 return bytes_read;
+*/
+    printk( KERN_NOTICE "Simple-driver: Device file is read at offset = %i, read bytes count = %u\n"
+    , (int)*offset
+    , (unsigned int)length );
+    /* If position is behind the end of a file we have nothing to read */
+    if( *offset >= g_s_Hello_World_size )
+    return 0;
+    /* If a user tries to read more than we have, read only as many bytes as we have */
+    if( *offset + lenght > g_s_Hello_World_size )
+    length = g_s_Hello_World_size - *offset;
+    if( copy_to_user(buffer, g_s_Hello_World_string + *offset, length) != 0 )
+    return -EFAULT;
+    /* Move reading position */
+    *offset += length;
+    return length;
 }
 
 /* Called when a process writes to dev file: echo "hi" > /dev/hello */
