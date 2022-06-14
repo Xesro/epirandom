@@ -12,7 +12,7 @@
 #include <linux/kernel.h>
 #include <linux/random.h>
 #include <linux/uaccess.h>
-#include <linux/vmalloc.h>
+//#include <linux/vmalloc.h>
 
 #define MAX_ALPHABET_LENGTH 128
 static char alphabet[MAX_ALPHABET_LENGTH];
