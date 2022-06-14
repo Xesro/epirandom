@@ -90,7 +90,7 @@ static ssize_t device_read(struct file *filp,
                             )
 {
     int bufferSize = 100;
-    unsigned *kernelBuffer = (unsigned *)kmalloc(length);
+    unsigned *kernelBuffer = (unsigned *)kmalloc(length, GFP_KERNEL);
     int count = 0;
     size_t bytesWrited = 0;
 
@@ -98,7 +98,7 @@ static ssize_t device_read(struct file *filp,
         get_random_bytes(kernelBuffer, length);
 
         while(count < length) {
-            kernelBuffer + count = 48 + (kernelBuffer[count] % 10);
+            *(kernelBuffer + count) = 48 + (kernelBuffer[count] % 10);
             count++;
         }
 
