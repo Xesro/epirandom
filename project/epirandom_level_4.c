@@ -16,10 +16,13 @@
 #include <linux/uaccess.h>
 #include <linux/vmalloc.h>
 
-static int alphabet[128] = {0};
-static int arg_argc = 0;
+static int maxAlphabetLength = 128
+static int alphabet[maxAlphabetLength] = {0};
+static int alphabetLength = 0;
 
-module_param_array(alphabet, int, &arg_argc, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
+module_param(alphabetLength, unsigned, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
+MODULE_PARM_DESC(alphabetLength, "alphabet length");
+module_param_string(alphabet, alphabet, maxAlphabetLength, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
 MODULE_PARM_DESC(alphabet, "alphabet for random generation");
 
 //static int grades[3] = {0};
@@ -109,7 +112,7 @@ static ssize_t device_read(struct file *filp,
     get_random_bytes(kernelBuffer, length);
 
     while(count < length) {
-        *(kernelBuffer + count) = alphabet[*(kernelBuffer + count) % arg_argc];
+        *(kernelBuffer + count) = alphabet[*(kernelBuffer + count) % alphabetLength];
         count++;
     }
 
