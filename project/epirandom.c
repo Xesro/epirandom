@@ -88,23 +88,24 @@ static ssize_t device_read(struct file *filp,
                             loff_t *offset
                             )
 {
-    pr_info("length =  %u\n", length);
-
     int bufferSize = 100;
     unsigned kernelBuffer[bufferSize];
     int count = 0;
+    size_t bytesWrited = 0;
 
-    get_random_bytes(kernelBuffer, bufferSize);
+    while(bytesWrited < length) {
+        get_random_bytes(kernelBuffer, bufferSize);
 
-    while(count < bufferSize) {
-        kernelBuffer[count] = 48 + (kernelBuffer[count] % 10);
-        count++;
+        while(count < bufferSize) {
+            kernelBuffer[count] = 48 + (kernelBuffer[count] % 10);
+            count++;
+        }
+
+        if(copy_to_user(buffer, kernelBuffer, bufferSize) != 0 )
+            return -EFAULT;
+        bytesWrited += 100
     }
-
-    if( copy_to_user(buffer, kernelBuffer, bufferSize) != 0 )
-        return -EFAULT;
-
-    return bufferSize;
+    return length;
 }
 
 module_init(chardev_init);
