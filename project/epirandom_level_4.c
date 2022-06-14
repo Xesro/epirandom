@@ -16,7 +16,7 @@
 #include <linux/uaccess.h>
 #include <linux/vmalloc.h>
 
-static int maxAlphabetLength = 128
+static int maxAlphabetLength = 128;
 static int alphabet[maxAlphabetLength] = {0};
 static int alphabetLength = 0;
 
