@@ -17,7 +17,7 @@
 #include <linux/vmalloc.h>
 
 static char alphabet[128] = {0};
-static int arg_argc = 0;
+//static int arg_argc = 0;
 
 //module_param_array_named(alphabet, alphabet, char, &arg_argc, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
 //MODULE_PARM_DESC(alphabet, "alphabet for random generation");
