@@ -1,17 +1,15 @@
 #include <linux/cdev.h>
-#include <linux/delay.h>
+//#include <linux/delay.h>
+//#include <linux/fs.h>
+//#include <linux/irq.h>
+
+//#include <linux/poll.h>
+
 #include <linux/device.h>
-#include <linux/fs.h>
-#include <linux/init.h>
-#include <linux/irq.h>
-
-#include <linux/moduleparam.h>
-
-
-#include <linux/kernel.h>
 #include <linux/module.h>
-#include <linux/poll.h>
-
+#include <linux/init.h>
+#include <linux/moduleparam.h>
+#include <linux/kernel.h>
 #include <linux/random.h>
 #include <linux/uaccess.h>
 #include <linux/vmalloc.h>
@@ -24,12 +22,6 @@ module_param(alphabetLength, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
 MODULE_PARM_DESC(alphabetLength, "alphabet length");
 module_param_string(alphabet, alphabet, MAX_ALPHABET_LENGTH, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
 MODULE_PARM_DESC(alphabet, "alphabet for random generation");
-
-//static int grades[3] = {0};
-//static int arg_argc = 0;
-//
-//module_param_array(grades, int, &arg_argc, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
-//MODULE_PARM_DESC(grades, "Your grades");
 
 static int device_open(struct inode *, struct file *);
 static int device_release(struct inode *, struct file *);
