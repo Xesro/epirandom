@@ -87,7 +87,6 @@ static ssize_t device_read(struct file *filp,
 )
 {
     unsigned *kernelBuffer = (unsigned *)kmalloc(length, GFP_KERNEL);
-    int count = 0;
 
     get_random_bytes(kernelBuffer, length);
 

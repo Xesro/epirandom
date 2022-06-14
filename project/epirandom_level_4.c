@@ -26,7 +26,7 @@ enum {
     DEVICE_EXCLUSIVE_OPEN = 1,
 };
 
-static int alphabet[128];
+static char alphabet[128];
 static int arg_argc = 0;
 
 module_param_array(alphabet, char, &arg_argc, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
