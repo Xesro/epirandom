@@ -15,14 +15,12 @@ static int device_release(struct inode *, struct file *);
 static ssize_t device_read(struct file *, char __user *, size_t, loff_t *);
 
 #define SUCCESS 0
+#define DEVICE_NOT_USED = 0,
+#define DEVICE_EXCLUSIVE_OPEN = 1,
+
 #define DEVICE_NAME "epirandom"
 
 static int major;
-
-enum {
-    CDEV_NOT_USED = 0,
-    CDEV_EXCLUSIVE_OPEN = 1,
-};
 
 static atomic_t already_open = ATOMIC_INIT(CDEV_NOT_USED);
 
@@ -44,7 +42,7 @@ static int __init chardev_init(void)
         return major;
     }
 
-    pr_info("I was assigned major number %d.\n", major);
+    pr_info("driver major number : %d.\n", major);
 
     cls = class_create(THIS_MODULE, DEVICE_NAME);
     device_create(cls, NULL, MKDEV(major, 0), NULL, DEVICE_NAME);
@@ -58,7 +56,6 @@ static void __exit chardev_exit(void)
 {
     device_destroy(cls, MKDEV(major, 0));
     class_destroy(cls);
-
     unregister_chrdev(major, DEVICE_NAME);
 }
 
@@ -90,13 +87,13 @@ static ssize_t device_read(struct file *filp,
                             )
 {
     int bufferSize = 100;
-    unsigned writeBuffer[bufferSize];
+    unsigned kernelBuffer[bufferSize];
     int count = 0;
 
-    get_random_bytes(writeBuffer, bufferSize);
+    get_random_bytes(kernelBuffer, bufferSize);
 
     while(count < bufferSize) {
-        writeBuffer[count] = 48 + (writeBuffer[count] % 10);
+        writeBuffer[count] = 48 + (kernelBuffer[count] % 10);
         count++;
     }
 
