@@ -20,8 +20,8 @@ static int maxAlphabetLength = 128
 static int alphabet[maxAlphabetLength] = {0};
 static int alphabetLength = 0;
 
-module_param(alphabetLength, unsigned, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
-MODULE_PARM_DESC(alphabetLength, "alphabet length");
+//module_param(alphabetLength, unsigned, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
+//MODULE_PARM_DESC(alphabetLength, "alphabet length");
 module_param_string(alphabet, alphabet, maxAlphabetLength, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
 MODULE_PARM_DESC(alphabet, "alphabet for random generation");
 
