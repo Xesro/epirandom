@@ -17,7 +17,7 @@
 #include <linux/vmalloc.h>
 
 static int maxAlphabetLength = 128;
-static int alphabet[maxAlphabetLength] = {0};
+static char alphabet[maxAlphabetLength];
 static int alphabetLength = 0;
 
 //module_param(alphabetLength, unsigned, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
