@@ -19,8 +19,14 @@
 static char alphabet[128] = {0};
 static int arg_argc = 0;
 
-module_param_array_named(alphabet, alphabet, char, &arg_argc, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
-MODULE_PARM_DESC(alphabet, "alphabet for random generation");
+//module_param_array_named(alphabet, alphabet, char, &arg_argc, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
+//MODULE_PARM_DESC(alphabet, "alphabet for random generation");
+
+static int grades[3] = {0};
+static int arg_argc = 0;
+
+module_param_array(grades, int, &arg_argc, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
+MODULE_PARM_DESC(grades, "Your grades");
 
 static int device_open(struct inode *, struct file *);
 static int device_release(struct inode *, struct file *);
