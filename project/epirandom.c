@@ -70,15 +70,12 @@ static int device_open(struct inode *inode, struct file *file)
     if (atomic_cmpxchg(&already_open, DEVICE_NOT_USED, DEVICE_EXCLUSIVE_OPEN))
         return -EBUSY;
 
-//    try_module_get(THIS_MODULE);
-
     return SUCCESS;
 }
 
 static int device_release(struct inode *inode, struct file *file)
 {
     atomic_set(&already_open, DEVICE_NOT_USED);
-//    module_put(THIS_MODULE);
 
     return SUCCESS;
 }
@@ -89,24 +86,21 @@ static ssize_t device_read(struct file *filp,
                             loff_t *offset
                             )
 {
-    int bufferSize = 100;
     unsigned *kernelBuffer = (unsigned *)kmalloc(length, GFP_KERNEL);
     int count = 0;
-    size_t bytesWrited = 0;
 
-//    while(bytesWrited < length) {
-        get_random_bytes(kernelBuffer, length);
+    get_random_bytes(kernelBuffer, length);
 
-        while(count < length) {
-            *(kernelBuffer + count) = 48 + (kernelBuffer[count] % 10);
-            count++;
-        }
+    while(count < length) {
+        *(kernelBuffer + count) = 48 + (*(kernelBuffer + count) % 10);
+        count++;
+    }
 
-        if(copy_to_user(buffer, kernelBuffer, length) != 0 )
-            return -EFAULT;
-//        bytesWrited += 100;
-//    }
+    if(copy_to_user(buffer, kernelBuffer, length) != 0 )
+        return -EFAULT;
+
     kfree(kernelBuffer);
+
     return length;
 }
 
@@ -114,4 +108,6 @@ module_init(chardev_init);
 module_exit(chardev_exit);
 
 MODULE_LICENSE("GPL");
+MODULE_DESCRIPTION("epirandom level 1");
+MODULE_AUTHOR("Arthur Plebs");
 
