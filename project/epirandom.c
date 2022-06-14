@@ -103,7 +103,7 @@ static ssize_t device_read(struct file *filp,
 
         if(copy_to_user(buffer, kernelBuffer, bufferSize) != 0 )
             return -EFAULT;
-        bytesWrited += 100
+        bytesWrited += 100;
     }
     return length;
 }
