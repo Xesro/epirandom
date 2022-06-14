@@ -15,13 +15,12 @@ static int device_release(struct inode *, struct file *);
 static ssize_t device_read(struct file *, char __user *, size_t, loff_t *);
 
 #define SUCCESS 0
+#define DEVICE_NAME "epirandom"
 
 enum {
     DEVICE_NOT_USED = 0,
     DEVICE_EXCLUSIVE_OPEN = 1,
 };
-
-#define DEVICE_NAME "epirandom";
 
 static int major;
 
