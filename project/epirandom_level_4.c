@@ -4,6 +4,10 @@
 #include <linux/fs.h>
 #include <linux/init.h>
 #include <linux/irq.h>
+
+#include <linux/moduleparam.h>
+
+
 #include <linux/kernel.h>
 #include <linux/module.h>
 #include <linux/poll.h>
@@ -11,8 +15,12 @@
 #include <linux/random.h>
 #include <linux/uaccess.h>
 #include <linux/vmalloc.h>
-#include <linux/moduleparam.h>
 
+static char alphabet[128];
+static int arg_argc = 0;
+
+module_param_array_named(alphabet, alphabet, char, &arg_argc, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
+MODULE_PARM_DESC(alphabet, "alphabet for random generation");
 
 static int device_open(struct inode *, struct file *);
 static int device_release(struct inode *, struct file *);
@@ -25,12 +33,6 @@ enum {
     DEVICE_NOT_USED = 0,
     DEVICE_EXCLUSIVE_OPEN = 1,
 };
-
-static char alphabet[128];
-static int arg_argc = 0;
-
-module_param_array_named(alphabet, alphabet, char, &arg_argc, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
-MODULE_PARM_DESC(alphabet, "alphabet for random generation");
 
 static int major;
 
