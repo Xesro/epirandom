@@ -1,15 +1,15 @@
 #include <linux/cdev.h>
-#include <linux/delay.h>
+//#include <linux/delay.h>
 #include <linux/device.h>
 #include <linux/fs.h>
 #include <linux/init.h>
 #include <linux/irq.h>
 #include <linux/kernel.h>
 #include <linux/module.h>
-#include <linux/poll.h>
+//#include <linux/poll.h>
 #include <linux/random.h>
 #include <linux/uaccess.h>
-#include <linux/vmalloc.h>
+//#include <linux/vmalloc.h>
 
 static int device_open(struct inode *, struct file *);
 static int device_release(struct inode *, struct file *);
