@@ -9,6 +9,7 @@
 #include <linux/poll.h>
 #include <linux/random.h>
 #include <linux/uaccess.h>
+#include <linux/malloc.h>
 
 static int device_open(struct inode *, struct file *);
 static int device_release(struct inode *, struct file *);
@@ -89,22 +90,23 @@ static ssize_t device_read(struct file *filp,
                             )
 {
     int bufferSize = 100;
-    unsigned kernelBuffer[bufferSize];
+    unsigned *kernelBuffer = (unsigned *)kmalloc(length);
     int count = 0;
     size_t bytesWrited = 0;
 
-    while(bytesWrited < length) {
-        get_random_bytes(kernelBuffer, bufferSize);
+//    while(bytesWrited < length) {
+        get_random_bytes(kernelBuffer, length);
 
-        while(count < bufferSize) {
-            kernelBuffer[count] = 48 + (kernelBuffer[count] % 10);
+        while(count < length) {
+            kernelBuffer + count = 48 + (kernelBuffer[count] % 10);
             count++;
         }
 
-        if(copy_to_user(buffer, kernelBuffer, bufferSize) != 0 )
+        if(copy_to_user(buffer, kernelBuffer, length) != 0 )
             return -EFAULT;
-        bytesWrited += 100;
-    }
+//        bytesWrited += 100;
+//    }
+    kfree(kernelBuffer);
     return length;
 }
 
