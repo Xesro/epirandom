@@ -92,7 +92,7 @@ static ssize_t device_read(struct file *filp,
     get_random_bytes(kernelBuffer, length);
 
     while(count < length) {
-        *(kernelBuffer + count) = *(kernelBuffer + count) % 128;
+        *(kernelBuffer + count) = 41 + (*(kernelBuffer + count) % 87);
         count++;
     }
 
