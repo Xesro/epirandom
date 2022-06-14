@@ -18,10 +18,10 @@
 
 #define MAX_ALPHABET_LENGTH 128
 static char alphabet[MAX_ALPHABET_LENGTH];
-static int alphabetLength = 0;
+static unsigned alphabetLength = 0;
 
-//module_param(alphabetLength, unsigned, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
-//MODULE_PARM_DESC(alphabetLength, "alphabet length");
+module_param(alphabetLength, unsigned, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
+MODULE_PARM_DESC(alphabetLength, "alphabet length");
 module_param_string(alphabet, alphabet, MAX_ALPHABET_LENGTH, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
 MODULE_PARM_DESC(alphabet, "alphabet for random generation");
 
