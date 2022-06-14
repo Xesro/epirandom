@@ -88,6 +88,8 @@ static ssize_t device_read(struct file *filp,
                             loff_t *offset
                             )
 {
+    pr_info("length =  %u\n", length);
+
     int bufferSize = 100;
     unsigned kernelBuffer[bufferSize];
     int count = 0;
