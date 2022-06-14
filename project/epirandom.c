@@ -9,7 +9,7 @@
 #include <linux/poll.h>
 #include <linux/random.h>
 #include <linux/uaccess.h>
-#include <linux/malloc.h>
+#include <linux/vmalloc.h>
 
 static int device_open(struct inode *, struct file *);
 static int device_release(struct inode *, struct file *);
