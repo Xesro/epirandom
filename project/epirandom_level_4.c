@@ -5,7 +5,7 @@
 #include <linux/init.h>
 #include <linux/irq.h>
 
-#include <linux/moduleparam.h>
+#include <linux/param.h>
 
 
 #include <linux/kernel.h>
