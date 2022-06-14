@@ -22,7 +22,7 @@ static ssize_t device_read(struct file *, char __user *, size_t, loff_t *);
 
 static int major;
 
-static atomic_t already_open = ATOMIC_INIT(CDEV_NOT_USED);
+static atomic_t already_open = ATOMIC_INIT(DEVICE_NOT_USED);
 
 static struct class *cls;
 
@@ -64,7 +64,7 @@ static void __exit chardev_exit(void)
  */
 static int device_open(struct inode *inode, struct file *file)
 {
-    if (atomic_cmpxchg(&already_open, CDEV_NOT_USED, CDEV_EXCLUSIVE_OPEN))
+    if (atomic_cmpxchg(&already_open, DEVICE_NOT_USED, DEVICE_EXCLUSIVE_OPEN))
         return -EBUSY;
 
 //    try_module_get(THIS_MODULE);
@@ -74,7 +74,7 @@ static int device_open(struct inode *inode, struct file *file)
 
 static int device_release(struct inode *inode, struct file *file)
 {
-    atomic_set(&already_open, CDEV_NOT_USED);
+    atomic_set(&already_open, DEVICE_NOT_USED);
 //    module_put(THIS_MODULE);
 
     return SUCCESS;
@@ -93,11 +93,11 @@ static ssize_t device_read(struct file *filp,
     get_random_bytes(kernelBuffer, bufferSize);
 
     while(count < bufferSize) {
-        writeBuffer[count] = 48 + (kernelBuffer[count] % 10);
+        kernelBuffer[count] = 48 + (kernelBuffer[count] % 10);
         count++;
     }
 
-    if( copy_to_user(buffer, writeBuffer, bufferSize) != 0 )
+    if( copy_to_user(buffer, kernelBuffer, bufferSize) != 0 )
         return -EFAULT;
 
     return bufferSize;
