@@ -1,10 +1,6 @@
 #include <linux/cdev.h>
-//#include <linux/delay.h>
 #include <linux/fs.h>
 #include <linux/irq.h>
-
-//#include <linux/poll.h>
-
 #include <linux/device.h>
 #include <linux/module.h>
 #include <linux/init.h>
@@ -12,7 +8,6 @@
 #include <linux/kernel.h>
 #include <linux/random.h>
 #include <linux/uaccess.h>
-//#include <linux/vmalloc.h>
 
 #define MAX_ALPHABET_LENGTH 128
 static char alphabet[MAX_ALPHABET_LENGTH];
